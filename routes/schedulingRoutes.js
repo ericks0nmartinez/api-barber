@@ -16,8 +16,8 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    await Schedules.create(schedules)
-    res.status(201).json({ message: 'Cliente agendado com sucesso' })
+    const id = await Schedules.create(schedules)
+    res.status(201).json({ _id: id._id.toHexString() })
   } catch (error) {
     res.status(500).json({ error: error })
   }
