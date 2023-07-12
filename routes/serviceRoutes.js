@@ -3,8 +3,8 @@ const Services = require('../models/Services')
 
 //Create
 router.post('/', async (req, res) => {
-  const { idCustomer, finalyService, service } = req.body
-  const services = { idCustomer, finalyService, service }
+  const { idCustomer, finalyService, service, idSheduling } = req.body
+  const services = { idCustomer, finalyService, service, idSheduling }
 
   try {
     const service = await Services.create(services)

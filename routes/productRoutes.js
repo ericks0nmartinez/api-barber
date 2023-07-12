@@ -4,8 +4,8 @@ const Products = require('../models/Product')
 
 //Create
 router.post('/', async (req, res) => {
-  const { idCustomer, finalyProduct, product } = req.body
-  const products = { idCustomer, finalyProduct, product }
+  const { idCustomer, finalyProduct, product, idSheduling } = req.body
+  const products = { idCustomer, finalyProduct, product, idSheduling }
 
   try {
     const product = await Products.create(products)
