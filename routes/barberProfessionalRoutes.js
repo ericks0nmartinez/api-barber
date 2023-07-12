@@ -1,6 +1,6 @@
 const router = require("express").Router()
 
-const Professional = require('../models/Professional')
+const Professional = require('../models/BaberProfessional')
 
 //Create
 router.post('/', async (req, res) => {

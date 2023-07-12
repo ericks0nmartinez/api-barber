@@ -6,7 +6,7 @@ require('dotenv').config()
 
 
 const app = express()
-const professional = require('./routes/professionalRoutes')
+constbarberProfessional = require('./routes/barberProfessionalRoutes')
 const customer = require('./routes/customerRoutes')
 const products = require('./routes/productRoutes')
 const schedules = require('./routes/schedulingRoutes')
@@ -34,13 +34,13 @@ app.use(cors(corsOptions))
 app.use(express.json())
 
 // rota da api
-app.use('/professional', professional)
+app.use('/professional', barberProfessional)
+app.use('/barber-services', barberServices)
+app.use('/barber-products', barberProducts)
 app.use('/customer', customer)
 app.use('/schedules', schedules)
 app.use('/products', products)
 app.use('/services', services)
-app.use('/barber-services', barberServices)
-app.use('/barber-products', barberProducts)
 
 // rota inicial
 

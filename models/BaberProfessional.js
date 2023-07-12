@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const Professional = mongoose.model('Professional', {
+const BarberProfessional = mongoose.model('BarberProfessional', {
   status: Boolean,
   name: String,
   phone: String,
@@ -8,4 +8,4 @@ const Professional = mongoose.model('Professional', {
   profile: String
 })
 
-module.exports = Professional
+module.exports = BarberProfessional
