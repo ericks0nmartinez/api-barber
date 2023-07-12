@@ -17,7 +17,7 @@ const barberProducts = require('./routes/barberProductRoutes')
 
 const USER = process.env.DB_USER
 const PASSWORD = process.env.DB_PASSWORD
-const port = process.env.PORT || 4000
+const port = process.env.PORT |git | 4000
 const corsOptions = {
   origin: '*',
   credentials: true,            //access-control-allow-credentials:true
