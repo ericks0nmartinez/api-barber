@@ -20,15 +20,6 @@ router.post('/', async (req, res) => {
 })
 
 //Read
-router.get('/', async (req, res) => {
-  try {
-    const professional = await Professional.find()
-    res.status(200).json(professional)
-  } catch (error) {
-    res.status(500).json({ error: error })
-  }
-})
-
 router.get('/:phone/:password', async (req, res) => {
   const phone = req.params.phone
   const password = req.params.password
