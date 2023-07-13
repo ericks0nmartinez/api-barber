@@ -33,12 +33,21 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.get('/:idCustomer', async (req, res) => {
-  const id = req.params.idCustomer
+router.get('/:filter', async (req, res) => {
+  const filter = req.params.filter
+  const data = filter.replace('-', '/').replace('-','/')
   try {
-    const schedules = await Schedules.find({ idCustomer: id })
-    const returnId = schedules.filter(schedule => schedule.scheduling === true)
-    res.status(200).json(returnId)
+    if(filter.length === 10) {
+      const schedules = await Schedules.find({ data: data })
+      const daySelect = schedules.filter(schedule => schedule.scheduling === true)
+      const hourFree = daySelect.map(day => day.hora)
+      res.status(200).json(hourFree)
+    } else {
+      const schedules = await Schedules.find({ idCustomer: filter })
+      const returnId = schedules.filter(schedule => schedule.scheduling === true)
+      res.status(200).json(returnId)
+    }
+
   } catch (error) {
     res.status(500).json({ error: error })
   }
