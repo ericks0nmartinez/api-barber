@@ -29,29 +29,24 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.get('/:id', async (req, res) => {
-  const id = req.params.id
+router.get('/:filter', async (req, res) => {
+  const filter = req.params.filter
   try {
-    const customer = await Customer.find({ _id: id })
-    if (!customer) {
-      res.status(422).json({ msg: 'Custumer not found' })
-      return
+    if (filter.length == 11) {
+      const customer = await Customer.find({ phone: filter })
+      if (!customer) {
+        res.status(422).json({ msg: 'Custumer not found' })
+        return
+      }
+      res.status(200).json(customer)
+    } else {
+      const customer = await Customer.find({ _id: filter })
+      if (!customer) {
+        res.status(422).json({ msg: 'Custumer not found' })
+        return
+      }
+      res.status(200).json(customer)
     }
-    res.status(200).json(customer)
-  } catch (error) {
-    res.status(500).json({ error: error })
-  }
-})
-
-router.get('/:phone', async (req, res) => {
-  const phone = req.params.phone
-  try {
-    const customer = await Customer.find({ phone: phone })
-    if (!customer) {
-      res.status(422).json({ msg: 'Custumer not found' })
-      return
-    }
-    res.status(200).json(customer)
   } catch (error) {
     res.status(500).json({ error: error })
   }
