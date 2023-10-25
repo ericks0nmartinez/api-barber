@@ -13,6 +13,7 @@ const schedules = require('./routes/schedulingRoutes')
 const services = require('./routes/serviceRoutes')
 const barberServices = require('./routes/barberServicesRoutes')
 const barberProducts = require('./routes/barberProductRoutes')
+const version = require('./routes/version')
 //forma de ler JSON / mid
 
 const USER = process.env.DB_USER
@@ -43,7 +44,7 @@ app.use('/products', products)
 app.use('/services', services)
 
 // rota inicial
-
+app.use('/', version)
 
 // entregar uma porta
 mongoose.connect(`mongodb+srv://${USER}:${PASSWORD}@cluster0.fbvg93b.mongodb.net/bancoapi`

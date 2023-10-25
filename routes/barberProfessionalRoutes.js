@@ -35,6 +35,18 @@ router.get('/:phone/:password', async (req, res) => {
   }
 })
 
+router.get('/', async (req, res) => {
+  try {
+    const professionals = await BaberProfessional.find()
+    if (!professionals) {
+      return
+    }
+    res.status(200).json([..." ", ...professionals.map(professional => professional.status === true ? professional.name : [' '])])
+  } catch (error) {
+    res.status(500).json({ error: error })
+  }
+})
+
 //update
 router.patch('/:id', async (req, res) => {
   const id = req.params.id

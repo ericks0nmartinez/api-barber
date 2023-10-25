@@ -43,7 +43,7 @@ router.patch('/:id', async (req, res) => {
   const products = { finalyProduct, product }
   try {
     const updateCustomer = await Products.updateOne({ _id: id }, products)
-    if (updateCustomer.matchedCount === 0) {
+    if (updateCustomer.matchedCount === 0 && product !== '') {
       res.status(422).json({ msg: 'Products not found' })
       return
     }

@@ -4,15 +4,39 @@ const Schedules = require('../models/Scheduling')
 
 //Create
 router.post('/', async (req, res) => {
-  const { idCustomer, scheduling, data, hora, updateData, updateHora, professional } = req.body
-  let schedules = { idCustomer, scheduling, data, updateData, updateHora, hora, professional }
+  const {
+    idCustomer,
+    scheduling,
+    data,
+    hora,
+    updateData,
+    updateHora,
+    professional
+  } = req.body
+  let schedules = {
+    idCustomer,
+    scheduling,
+    data,
+    updateData,
+    updateHora,
+    hora,
+    professional
+  }
 
   if (!scheduling) {
     const result2 = new Date().toLocaleString('en-GB', {
-      hour12: false,
-    });
+      hour12: false
+    })
 
-    schedules = { idCustomer, scheduling, data: result2.split(', ')[0], hora: result2.split(', ')[1], updateData, updateHora, professional }
+    schedules = {
+      idCustomer,
+      scheduling,
+      data: result2.split(', ')[0],
+      hora: result2.split(', ')[1],
+      updateData,
+      updateHora,
+      professional
+    }
   }
 
   try {
@@ -35,19 +59,22 @@ router.get('/', async (req, res) => {
 
 router.get('/:filter', async (req, res) => {
   const filter = req.params.filter
-  const data = filter.replace('-', '/').replace('-','/')
+  const data = filter.replace('-', '/').replace('-', '/')
   try {
-    if(filter.length === 10) {
+    if (filter.length === 10) {
       const schedules = await Schedules.find({ data: data })
-      const daySelect = schedules.filter(schedule => schedule.scheduling === true)
+      const daySelect = schedules.filter(
+        schedule => schedule.scheduling === true
+      )
       const hourFree = daySelect.map(day => day.hora)
       res.status(200).json(hourFree)
     } else {
       const schedules = await Schedules.find({ idCustomer: filter })
-      const returnId = schedules.filter(schedule => schedule.scheduling === true)
+      const returnId = schedules.filter(
+        schedule => schedule.scheduling === true
+      )
       res.status(200).json(returnId)
     }
-
   } catch (error) {
     res.status(500).json({ error: error })
   }
@@ -56,8 +83,24 @@ router.get('/:filter', async (req, res) => {
 //update
 router.patch('/:id', async (req, res) => {
   const id = req.params.id
-  const { scheduling, name, phone, date, hora, updateData, updateHora, service, product } = req.body
-  const shedules = { scheduling, name, phone, date, hora, updateData, updateHora, service, product }
+  const {
+    idCustomer,
+    scheduling,
+    professional,
+    data,
+    hora,
+    updateData,
+    updateHora
+  } = req.body
+  const shedules = {
+    idCustomer,
+    scheduling,
+    professional,
+    data,
+    hora,
+    updateData,
+    updateHora
+  }
 
   try {
     const updateCustomer = await Schedules.updateOne({ _id: id }, shedules)
@@ -65,8 +108,7 @@ router.patch('/:id', async (req, res) => {
       res.status(422).json({ msg: 'Custumer not found' })
       return
     }
-
-    res.status(200).json(customer)
+    res.status(200)
   } catch (error) {
     res.status(500).json({ error: error })
   }
