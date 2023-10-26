@@ -18,6 +18,7 @@ const version = require('./routes/version')
 
 const USER = process.env.DB_USER
 const PASSWORD = process.env.DB_PASSWORD
+const DB = process.env.DB
 const port = process.env.PORT || 4000
 const corsOptions = {
   origin: '*',
@@ -47,7 +48,7 @@ app.use('/services', services)
 app.use('/', version)
 
 // entregar uma porta
-mongoose.connect(`mongodb+srv://${USER}:${PASSWORD}@cluster0.fbvg93b.mongodb.net/bancoapi`
+mongoose.connect(`mongodb+srv://${USER}:${PASSWORD}@cluster0.fbvg93b.mongodb.net/${DB}`
 )
   .then(() => {
     console.log('Conectamos ao MongoDB')
