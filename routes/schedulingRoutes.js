@@ -48,10 +48,50 @@ router.post('/', async (req, res) => {
 })
 
 //Read
-router.get('/', async (req, res) => {
+router.get('/list/:filterDataList', async (req, res) => {
+  const filter = req.params.filterDataList
+  const data = filter.replace('-', '/').replace('-', '/')
   try {
-    const schedules = await Schedules.find()
-    res.status(200).json(schedules)
+    if(filter.length === 10){
+      const schedules = await Schedules.find({ data: data })
+
+      function convertToDateObject(dateString, timeString) {
+        const [day, month, year] = dateString.split('/').map(Number);
+        const [hour, minute, second = 0] = timeString.split(':').map(Number);
+        // O mês no objeto Date é base zero, então subtraímos 1 do mês
+        return new Date(year, month - 1, day, hour, minute, second);
+      }
+
+      schedules.sort((a, b) => {
+        const dateA = convertToDateObject(a.data, a.hora);
+        const dateB = convertToDateObject(b.data, b.hora);
+
+        // Compara as datas para ordenação
+        return dateA - dateB;
+      });
+
+      res.status(200).json(schedules)
+    }else{
+      const schedules = await Schedules.find()
+
+      function convertToDateObject(dateString, timeString) {
+        const [day, month, year] = dateString.split('/').map(Number);
+        const [hour, minute, second = 0] = timeString.split(':').map(Number);
+        // O mês no objeto Date é base zero, então subtraímos 1 do mês
+        return new Date(year, month - 1, day, hour, minute, second);
+      }
+
+      schedules.sort((a, b) => {
+        const dateA = convertToDateObject(a.data, a.hora);
+        const dateB = convertToDateObject(b.data, b.hora);
+
+        // Compara as datas para ordenação
+        return dateA - dateB;
+      });
+
+      res.status(200).json(schedules)
+    }
+
   } catch (error) {
     res.status(500).json({ error: error })
   }
