@@ -52,57 +52,62 @@ router.get('/list/:filterDataList', async (req, res) => {
   const filter = req.params.filterDataList
   const data = filter.replace('-', '/').replace('-', '/')
   try {
-    if(filter.length === 10){
+    if (filter.length === 10) {
       const schedules = await Schedules.find({ data: data })
 
-      function convertToDateObject(dateString, timeString) {
-        const [day, month, year] = dateString.split('/').map(Number);
-        const [hour, minute, second = 0] = timeString.split(':').map(Number);
+      function convertToDateObject (dateString, timeString) {
+        const [day, month, year] = dateString.split('/').map(Number)
+        const [hour, minute, second = 0] = timeString.split(':').map(Number)
         // O mês no objeto Date é base zero, então subtraímos 1 do mês
-        return new Date(year, month - 1, day, hour, minute, second);
+        return new Date(year, month - 1, day, hour, minute, second)
       }
 
       schedules.sort((a, b) => {
-        const dateA = convertToDateObject(a.data, a.hora);
-        const dateB = convertToDateObject(b.data, b.hora);
+        const dateA = convertToDateObject(a.data, a.hora)
+        const dateB = convertToDateObject(b.data, b.hora)
 
         // Compara as datas para ordenação
-        return dateA - dateB;
-      });
+        return dateA - dateB
+      })
 
       res.status(200).json(schedules)
-    }else{
+    } else {
       const schedules = await Schedules.find()
 
-      function convertToDateObject(dateString, timeString) {
-        const [day, month, year] = dateString.split('/').map(Number);
-        const [hour, minute, second = 0] = timeString.split(':').map(Number);
+      function convertToDateObject (dateString, timeString) {
+        const [day, month, year] = dateString.split('/').map(Number)
+        const [hour, minute, second = 0] = timeString.split(':').map(Number)
         // O mês no objeto Date é base zero, então subtraímos 1 do mês
-        return new Date(year, month - 1, day, hour, minute, second);
+        return new Date(year, month - 1, day, hour, minute, second)
       }
 
       schedules.sort((a, b) => {
-        const dateA = convertToDateObject(a.data, a.hora);
-        const dateB = convertToDateObject(b.data, b.hora);
+        const dateA = convertToDateObject(a.data, a.hora)
+        const dateB = convertToDateObject(b.data, b.hora)
 
         // Compara as datas para ordenação
-        return dateA - dateB;
-      });
+        return dateA - dateB
+      })
 
       res.status(200).json(schedules)
     }
-
   } catch (error) {
     res.status(500).json({ error: error })
   }
 })
 
-router.get('/:filter', async (req, res) => {
-  const filter = req.params.filter
+router.get('/professional/:filterData/:professional', async (req, res) => {
+  const filter = req.params.filterData
+  const professional = req.params.professional
   const data = filter.replace('-', '/').replace('-', '/')
   try {
     if (filter.length === 10) {
-      const schedules = await Schedules.find({ data: data })
+      const schedules = await Schedules.find({
+        data: data,
+        professional: professional
+      })
+      console.log('schedules', schedules)
+
       const daySelect = schedules.filter(
         schedule => schedule.scheduling === true
       )
@@ -115,6 +120,17 @@ router.get('/:filter', async (req, res) => {
       )
       res.status(200).json(returnId)
     }
+  } catch (error) {
+    res.status(500).json({ error: error })
+  }
+})
+
+router.get('/customer/:idCustomer', async (req, res) => {
+  const id = req.params.idCustomer
+  try {
+    const schedules = await Schedules.find({ idCustomer: id })
+    const returnId = schedules.filter(schedule => schedule.scheduling === true)
+    res.status(200).json(returnId)
   } catch (error) {
     res.status(500).json({ error: error })
   }
