@@ -4,11 +4,11 @@ const mongoose = require('mongoose')
 const cors = require("cors");
 require('dotenv').config()
 
-
 const app = express()
 const barberProfessional = require('./routes/barberProfessionalRoutes')
 const customer = require('./routes/customerRoutes')
 const products = require('./routes/productRoutes')
+const tickets = require('./routes/ticketRoutes')
 const schedules = require('./routes/schedulingRoutes')
 const services = require('./routes/serviceRoutes')
 const barberServices = require('./routes/barberServicesRoutes')
@@ -42,6 +42,7 @@ app.use('/barber-products', barberProducts)
 app.use('/customer', customer)
 app.use('/schedules', schedules)
 app.use('/products', products)
+app.use('/tickets', tickets)
 app.use('/services', services)
 
 // rota inicial
